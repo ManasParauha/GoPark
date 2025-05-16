@@ -9,7 +9,7 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { email, password } = reqBody;
+    const { email, password, role } = reqBody;
 
     console.log("Login request body:", reqBody);
 
@@ -23,6 +23,11 @@ export async function POST(request: NextRequest) {
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
       return NextResponse.json({ error: "Invalid password" }, { status: 400 });
+    }
+
+    // Check role match
+    if (user.role !== role) {
+      return NextResponse.json({ error: `This account is registered as a ${user.role}, not a ${role}` }, { status: 403 });
     }
 
     // Prepare token data
@@ -42,7 +47,7 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json({
       message: "Login successful",
       success: true,
-      role: user.role // 👈 Add this line
+      role: user.role
     });
 
     response.cookies.set("token", token, {

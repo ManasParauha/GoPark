@@ -23,21 +23,22 @@ const LoginPage = () => {
     password: ''
   });
 
-  const handleLogin = async () => {
+  const handleLogin = async (selectedRole: 'host' | 'parker') => {
     try {
-      const response = await axios.post('/api/user/login', credentials);
+      const response = await axios.post('/api/user/login', {
+        ...credentials,
+        role: selectedRole
+      });
 
-      const role = response.data.role;
+      const actualRole = response.data.role;
 
-      if (role === 'host') {
-        toast.success("Host login successful!");
-        router.push('/Host');
-      } else if (role === 'parker') {
-        toast.success("Parker login successful!");
-        router.push('/Parker');
-      } else {
-        toast.error("Unknown user role!");
+      if (actualRole !== selectedRole) {
+        toast.error(`This account is registered as a ${actualRole}, not a ${selectedRole}`);
+        return;
       }
+
+      toast.success(`${actualRole.charAt(0).toUpperCase() + actualRole.slice(1)} login successful!`);
+      router.push(actualRole === 'host' ? '/Host' : '/Parker');
     } catch (err: any) {
       toast.error(err?.response?.data?.error || "Login failed");
     }
@@ -80,12 +81,12 @@ const LoginPage = () => {
                   placeholder="Password"
                 />
               </CardContent>
-              <CardFooter>
-                <Button onClick={handleLogin}>Login as Host</Button>
+              <CardFooter className="flex flex-col gap-2 items-start">
+                <Button onClick={() => handleLogin('host')}>Login as Host</Button>
+                <Button onClick={() => router.push('/Registration')} variant="link">Don't have an account? Register here</Button>
               </CardFooter>
-              <Button onClick={() => router.push('/Registration')} variant="link">Don't have an account? Register here</Button>
             </Card>
-          </TabsContent>``
+          </TabsContent>
 
           {/* Parker Login Tab */}
           <TabsContent value="parker">
@@ -110,10 +111,10 @@ const LoginPage = () => {
                   placeholder="Password"
                 />
               </CardContent>
-              <CardFooter>
-                <Button onClick={handleLogin}>Login as Parker</Button>
+              <CardFooter className="flex flex-col gap-2 items-start">
+                <Button onClick={() => handleLogin('parker')}>Login as Parker</Button>
+                <Button onClick={() => router.push('/Registration')} variant="link">Don't have an account? Register here</Button>
               </CardFooter>
-              <Button onClick={() => router.push('/Registration')} variant="link">Don't have an account? Register here</Button>
             </Card>
           </TabsContent>
         </Tabs>
