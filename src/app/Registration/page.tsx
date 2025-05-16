@@ -113,6 +113,7 @@ const Page = () => {
               <CardFooter>
                 <Button onClick={handleHostRegister}>Register as Host</Button>
               </CardFooter>
+              <Button onClick={() => router.push('/Login')} variant="link">Already registered? Login here</Button>
             </Card>
           </TabsContent>
 
@@ -150,6 +151,7 @@ const Page = () => {
               <CardFooter>
                 <Button onClick={handleParkerRegister}>Register as Parker</Button>
               </CardFooter>
+              <Button onClick={() => router.push('/Login')} variant="link">Already registered? Login here</Button>
             </Card>
           </TabsContent>
         </Tabs>
