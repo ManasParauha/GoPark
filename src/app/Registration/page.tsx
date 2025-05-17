@@ -68,7 +68,7 @@ const Page = () => {
     <div className='flex justify-center items-center h-screen'>
       <div className='flex justify-center items-center'>
         <Tabs defaultValue="host" value={tab} onValueChange={setTab}
-          className={`md:w-[400px] w-[285px] ${tab === 'host' ? 'mt-20' : ''}`}>
+          className={`md:w-[400px] w-[285px] ${tab === 'host' ? 'mt-40' : 'mt-3'}`}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="host">Host</TabsTrigger>
             <TabsTrigger value="parker">Parker</TabsTrigger>

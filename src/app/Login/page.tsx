@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tabs"
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { set } from 'mongoose'
 
 const LoginPage = () => {
   const router = useRouter();
@@ -38,7 +39,10 @@ const LoginPage = () => {
       }
 
       toast.success(`${actualRole.charAt(0).toUpperCase() + actualRole.slice(1)} login successful!`);
-      router.push(actualRole === 'host' ? '/Host' : '/Parker');
+      // Force reload to trigger middleware after cookie is set
+      window.location.href = actualRole === 'host' ? '/Host' : '/Parker';
+
+
     } catch (err: any) {
       toast.error(err?.response?.data?.error || "Login failed");
     }
@@ -58,7 +62,6 @@ const LoginPage = () => {
             <TabsTrigger value="parker">Parker</TabsTrigger>
           </TabsList>
 
-          {/* Host Login Tab */}
           <TabsContent value="host">
             <Card>
               <CardHeader>
@@ -67,19 +70,9 @@ const LoginPage = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <Label>Email</Label>
-                <Input
-                  type="email"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                  placeholder="email@example.com"
-                />
+                <Input type="email" value={credentials.email} onChange={(e) => setCredentials({ ...credentials, email: e.target.value })} placeholder="email@example.com" />
                 <Label>Password</Label>
-                <Input
-                  type="password"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                  placeholder="Password"
-                />
+                <Input type="password" value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} placeholder="Password" />
               </CardContent>
               <CardFooter className="flex flex-col gap-2 items-start">
                 <Button onClick={() => handleLogin('host')}>Login as Host</Button>
@@ -88,7 +81,6 @@ const LoginPage = () => {
             </Card>
           </TabsContent>
 
-          {/* Parker Login Tab */}
           <TabsContent value="parker">
             <Card>
               <CardHeader>
@@ -97,19 +89,9 @@ const LoginPage = () => {
               </CardHeader>
               <CardContent className="space-y-3">
                 <Label>Email</Label>
-                <Input
-                  type="email"
-                  value={credentials.email}
-                  onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
-                  placeholder="email@example.com"
-                />
+                <Input type="email" value={credentials.email} onChange={(e) => setCredentials({ ...credentials, email: e.target.value })} placeholder="email@example.com" />
                 <Label>Password</Label>
-                <Input
-                  type="password"
-                  value={credentials.password}
-                  onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
-                  placeholder="Password"
-                />
+                <Input type="password" value={credentials.password} onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} placeholder="Password" />
               </CardContent>
               <CardFooter className="flex flex-col gap-2 items-start">
                 <Button onClick={() => handleLogin('parker')}>Login as Parker</Button>
