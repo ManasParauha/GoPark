@@ -38,7 +38,7 @@ const navItems: NavItem[] = [
 function NavGroup({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname();
   return (
-    <SidebarGroup className="mt-2 space-y-1 ">
+    <SidebarGroup className="mt-2 space-y-1  ">
       {navItems.map(({ name, href, icon: Icon }) => {
         const active = pathname === href;
         return (

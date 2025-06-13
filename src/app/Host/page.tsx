@@ -8,12 +8,12 @@ import ReviewsGrid from "@/components/ReviewsGrid";
 
 export default function HostDashboardPage() {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-full overflow-hidden ">
       {/* Sidebar */}
-      <HostSidebar />
+      <div className=" static sm:absolute"><HostSidebar /></div>
 
       {/* Main content */}
-      <main className="flex flex-col overflow-y-auto p-6 space-y-6 bg-muted/50 h-[100dvh]  ">
+      <main className="flex flex-col overflow-y-auto  space-y-6 bg-muted/50 h-[100dvh] ">
         <HostStatCards />
         {/* other dashboard widgets here */}
         <HostSpotsPage />
